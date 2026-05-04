@@ -189,7 +189,10 @@
         background-size: cover;
     }
 }
-
+.text-bubble {
+    max-width: 80vw;
+    white-space: normal;
+}
 
         </style>
     </head>
@@ -232,14 +235,30 @@ function createTextBubble() {
   const left = Math.random() * 80 + 10;
   const top = Math.random() * 80 + 10;
 
-  // Establecemos la posición absoluta y aplicamos las coordenadas calculadas
-  bubble.style.position = "absolute";
-  bubble.style.left = left + "vw"; // vw = porcentaje del ancho de la ventana
-  bubble.style.top = top + "vh";   // vh = porcentaje del alto de la ventana
+  bubble.style.left = left + "vw";
+  bubble.style.top = top + "vh";
 
   // Buscamos el contenedor con ID "bubbles-text" y añadimos la burbuja
-  const container = document.getElementById("bubbles-text");
-  container.appendChild(bubble);
+  const containerWidth = window.innerWidth;
+const containerHeight = window.innerHeight;
+
+// primero lo agregas invisible para medirlo
+bubble.style.visibility = "hidden";
+container.appendChild(bubble);
+
+// obtener tamaño real del texto
+const rect = bubble.getBoundingClientRect();
+
+// calcular posición segura
+const left = Math.random() * (containerWidth - rect.width - 20);
+const top = Math.random() * (containerHeight - rect.height - 20);
+
+// aplicar posición FINAL
+bubble.style.left = left + "px";
+bubble.style.top = top + "px";
+
+// ahora sí mostrar
+bubble.style.visibility = "visible";
 
   // Esperamos un momento (10ms) para asegurarnos de que se renderizó
   setTimeout(() => {
