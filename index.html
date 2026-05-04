@@ -39,6 +39,8 @@
     margin-bottom: 25px;
     transition: transform 0.3s ease;
     animation: bounce 1s infinite;
+    z-index: 10;
+    position: relative;
 }
 
 @keyframes bounce {
@@ -162,7 +164,7 @@
     border-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     animation: floatText 8s ease-in-out forwards;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 @keyframes floatText {
@@ -229,8 +231,11 @@ function createTextBubble() {
   bubble.innerText = messages[Math.floor(Math.random() * messages.length)];
 
   // Calculamos una posición aleatoria dentro de la pantalla (entre 10% y 90%)
-  const left = Math.random() * 80 + 10;
-  const top = Math.random() * 80 + 10;
+    const left = Math.random() * 50 + 10; // 10% a 90% ancho
+    const top = Math.random() * 80 + 10;  // 10% a 90% alto
+    if (top > 35 && top < 65 && left > 30 && left < 70) {
+    return; // evita zona central
+}
 
   // Establecemos la posición absoluta y aplicamos las coordenadas calculadas
   bubble.style.position = "absolute";
@@ -240,6 +245,9 @@ function createTextBubble() {
   // Buscamos el contenedor con ID "bubbles-text" y añadimos la burbuja
   const container = document.getElementById("bubbles-text");
   container.appendChild(bubble);
+  if (container.children.length > 10) {
+    container.firstChild.remove();
+}
 
   // Esperamos un momento (10ms) para asegurarnos de que se renderizó
   setTimeout(() => {
